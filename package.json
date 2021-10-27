@@ -1,0 +1,14 @@
+{
+  "name": "richx",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "lerna run --scope @richx/toolbar dev"
+  },
+  "author": "",
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT"
+}

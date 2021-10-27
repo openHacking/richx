@@ -1,0 +1,33 @@
+{
+  "name": "@richx/toolbar",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "publishConfig": {
+    "main": "./lib/richx-toolbar.umd.js",
+    "module": "./lib/richx-toolbar.es.js",
+    "types": "./lib/richx-toolbar.d.ts"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "package.json",
+    "lib"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@richx/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "less": "^4.1.2",
+    "typescript": "^4.3.2",
+    "vite": "^2.6.4",
+    "vite-plugin-external": "^1.2.3"
+  }
+}
