@@ -1,6 +1,6 @@
 import { IOptions } from "../data/options";
 import { $$ } from "@richx/core";
-import styles from "../assets/css/main.module.css";
+import styles from "./tool-bar.module.less";
 import { Component } from "@richx/core";
 /**
  * toolbar
@@ -24,7 +24,16 @@ export class ToolBarComponent extends Component {
    */
   render(props: IProps): HTMLElement {
     return (
-      <div>AAAAA</div>
+      <div className={styles.sampleToolbar}>
+        <span style={{ fontWeight: '700' }}>B
+        </span>
+        <span style={{ fontStyle: 'italic' }}>I</span>
+        <span class="" aria-hidden="true"></span>
+        <span class="" aria-hidden="true"></span>
+        <span class="" aria-hidden="true"></span>
+
+
+      </div>
     )
   }
 }

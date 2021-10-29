@@ -1,4 +1,4 @@
-import "./style.css";
+import "./style.less";
 
 import { RichText } from "@richx/core";
 import { ToolBar } from ".";

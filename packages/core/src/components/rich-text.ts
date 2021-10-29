@@ -1,9 +1,11 @@
 import { IOptions } from "../data/options";
 import { $$ } from "../utils";
-import styles from "../assets/css/main.module.less";
+import "../assets/css/main.module.less";
 
 /**
  * rich text
+ *
+ * reference: https://www.thatsoftwaredude.com/content/8912/create-a-basic-text-editor-in-javascript
  */
 export class RichText {
   private _element: HTMLElement;

@@ -21,7 +21,7 @@ export default defineConfig({
   esbuild: {
     jsxFactory: "DOMcreateElement",
     jsxFragment: "DOMcreateFragment",
-    jsxInject: `import { DOMcreateElement, DOMcreateFragment } from '@/dom-helper/jsxFactory';`,
+    jsxInject: `import { DOMcreateElement, DOMcreateFragment } from '@/helper/jsxFactory';`,
   },
   resolve: {
     alias: {
