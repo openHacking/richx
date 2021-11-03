@@ -2,7 +2,7 @@ import { isElement } from '../utils/util'
 /**
  * Basic component class
  */
-interface IProps {
+export interface IProps {
     element?: HTMLElement | null;
 }
 export abstract class Component {
@@ -21,7 +21,7 @@ export abstract class Component {
         // return this.getElement();
     }
     // Render the component's HTML
-    abstract render(props: IProps): HTMLElement;
+    abstract render(props: IProps): any;
     getElement(): HTMLElement {
         return this._element
     }
