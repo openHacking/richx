@@ -1,0 +1,12 @@
+// // If you are using @babel/preset-react
+// {
+//   "presets": [
+//     [
+//       "@babel/preset-react",
+//       {
+//         "runtime": "automatic",
+//         "importSource": "../runtime"
+//       }
+//     ]
+//   ]
+// }

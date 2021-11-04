@@ -23,11 +23,11 @@ export class ToolBarComponent extends Component {
   render() {
     return (
       <div className={styles.sampleToolbar}>
-        <span style={{ fontWeight: '700' }}><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M13 24h12a8 8 0 100-16H13.2a.2.2 0 00-.2.2V24zm0 0h16a8 8 0 110 16H13.2a.2.2 0 01-.2-.2V24z" stroke="#4E5969" stroke-width="4" /></svg></span>
+        <div className="">B</div>
         <span style={{ fontStyle: 'italic' }}>I</span>
-        <span class="" aria-hidden="true"></span>
-        <span class="" aria-hidden="true"></span>
-        <span class="" aria-hidden="true"></span>
+        <span className="" aria-hidden="true"></span>
+        <span className="" aria-hidden="true"></span>
+        <span className="" aria-hidden="true"></span>
 
       </div>
     )

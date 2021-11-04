@@ -15,6 +15,8 @@ export abstract class Component {
         }
         else {
             this._element = this.render(props);
+            console.log('---', this._element);
+
         }
 
         // Return the rendered DOM

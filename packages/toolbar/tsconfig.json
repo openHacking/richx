@@ -18,8 +18,10 @@
     "declaration": true,
     "declarationDir": "./lib",
     "declarationMap": true,
-    "baseUrl": "./",
-    "jsx": "preserve"
+    "baseUrl": "./"
+    // "jsx": "react-jsxdev"
+    // "jsxFactory": "h",
+    // "jsxFragmentFactory": "Fragment"
   },
-  "include": ["./src"]
+  "include": ["./**/*"]
 }
