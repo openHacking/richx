@@ -2,6 +2,7 @@ import { IOptions } from "../data/options";
 import { $$, IProps, IRichTextData, mergeTextSetting, saveRange, textToJson } from "@richx/core";
 import styles from "./tool-bar.module.less";
 import { Component } from "@richx/core";
+import { fontSizeSettingList } from "../data/const";
 
 
 // function component template
@@ -29,9 +30,17 @@ export class ToolBarComponent extends Component {
 
   }
 
-  onClick() {
-    this.setState('font-size', 30);
-    // setState('font-family', fontFamily);
+  setFontWeight() {
+
+    this.setState('font-weight', 700);
+  }
+  setFontStyle() {
+
+    this.setState('font-style', 'italic');
+  }
+  selectFontSize(e: Event) {
+    this.setState('font-size', +e.target.value);
+
   }
 
   setState(type: string, value: string | number) {
@@ -62,9 +71,18 @@ export class ToolBarComponent extends Component {
   render() {
     return (
       <div className={styles.sampleToolbar}>
-        <span style={{ fontWeight: 700 }} onClick={this.onClick.bind(this)}>B</span>
-        <span style={{ fontStyle: 'italic' }}>I</span>
-      </div>
+        <span style={{ fontWeight: 700 }} onClick={this.setFontWeight.bind(this)}>B</span>
+        <span style={{ fontStyle: 'italic' }} onClick={this.setFontStyle.bind(this)}>I</span>
+        <span>
+          <select name="" id="" onChange={this.selectFontSize.bind(this)}>{
+            fontSizeSettingList.map((size) => {
+              return <option value={size}>{size} px</option>
+            })
+          }
+          </select>
+        </span>
+
+      </div >
     )
   }
 }
