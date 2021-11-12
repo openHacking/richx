@@ -19,7 +19,8 @@
     "declarationDir": "./lib",
     "declarationMap": true,
     "baseUrl": "./",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "allowJs": true
   },
   "include": ["./src"]
 }

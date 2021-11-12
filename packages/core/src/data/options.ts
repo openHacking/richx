@@ -1,3 +1,5 @@
+import { IRichTextData } from "../components/data";
+
 export interface IOptions {
   /**
    * string selector or DOM
@@ -7,4 +9,6 @@ export interface IOptions {
    * plugin list
    */
   plugins?: any[];
+
+  text?: IRichTextData;
 }

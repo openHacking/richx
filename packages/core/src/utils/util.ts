@@ -161,3 +161,50 @@ export function deepClone(obj) {
   }
   return newObj;
 }
+
+/* 
+createArrayRange(1,4) => [1,2,3,4]
+*/
+export function createArrayRange(start, end) {
+  return new Array(end - start + 1).fill(null).map((v, i) => {
+    return start + i;
+  });
+}
+
+/**
+ * mergeArray([1,2,4,5,6,9]) => [[1,2],[4,6],[9,9]]
+ * @param array
+ * @returns
+ */
+export function mergeArray(array) {
+  let preValue = 0;
+  const result = [];
+  let preItem = [];
+  array.reduce((pre, cur, i) => {
+    if (i === 1) {
+      preValue = pre;
+      preItem[0] = preValue;
+    }
+
+    if (pre + 1 === cur) {
+      preValue = cur;
+    } else {
+      preItem[1] = pre;
+      result.push(preItem);
+
+      preItem = [];
+      preItem[0] = cur;
+
+      preValue = cur;
+    }
+
+    if (i === array.length - 1) {
+      preItem[1] = cur;
+      result.push(preItem);
+    }
+
+    return cur;
+  });
+
+  return result;
+}

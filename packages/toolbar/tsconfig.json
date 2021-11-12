@@ -18,8 +18,9 @@
     "declaration": true,
     "declarationDir": "./lib",
     "declarationMap": true,
-    "baseUrl": "./"
-    // "jsx": "react-jsxdev"
+    "baseUrl": "./",
+    "allowJs": true,
+    "jsx": "preserve"
     // "jsxFactory": "h",
     // "jsxFragmentFactory": "Fragment"
   },

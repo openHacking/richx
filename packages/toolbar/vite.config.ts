@@ -19,9 +19,9 @@ export default defineConfig({
     pkgJson: { name, version },
   },
   esbuild: {
-    jsxFactory: "_jsx",
-    jsxFragment: "Fragment",
-    jsxInject: `import {jsx as _jsx,Fragment} from 'react/jsx-runtime';`,
+    jsxFactory: "DOMcreateElement",
+    jsxFragment: "DOMcreateFragment",
+    jsxInject: `import {DOMcreateElement,DOMcreateFragment} from '@richx/core';`,
   },
   css: {
     modules: {

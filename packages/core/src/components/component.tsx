@@ -14,9 +14,8 @@ export abstract class Component {
             this._element = props.element!;
         }
         else {
-            this._element = this.render(props);
-            console.log('---', this._element);
-
+            const div = document.createElement('div')
+            this._element = div.appendChild(this.render(props))
         }
 
         // Return the rendered DOM

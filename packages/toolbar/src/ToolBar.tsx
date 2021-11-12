@@ -1,24 +1,22 @@
+import { IRichTextData } from "@richx/core";
 import { ToolBarComponent } from "./components/tool-bar";
-import ReactDOM from "react-dom";
 
 interface IProps {
   container: HTMLElement | string;
+  text?: IRichTextData;
 }
 export class ToolBar {
   _container: HTMLElement;
 
   constructor(props: IProps) {
-    const { container } = props;
+    const { container, text } = props;
     this._container =
       typeof container === "string"
         ? document.querySelector(container)
         : container;
 
-    console.log(ReactDOM.render, "render");
+    // this._container.appendChild(<ToolBarComponent />);
+    this._container.appendChild(new ToolBarComponent(text).getElement());
 
-    // new ToolBarComponent().appendTo(this._container);
-    ReactDOM.render(new ToolBarComponent().getElement(), this._container);
-
-    // render()
   }
 }
