@@ -77,12 +77,12 @@ export const richTextSettingJson: IRichTextSettingData[] = [
 ];
 
 export const richTextJson = {
-  text: "Simple Rich Text Demo",
+  text: "Simple Rich Text Demo,",
   setting: richTextSettingJson,
 };
 
 new RichText({
-  element: "#rich",
-  plugins: [new ToolBar({ container: "#toolbar", text: richTextJson })],
+  container: "#rich",
+  plugins: [new ToolBar({ container: "#toolbar" })],
   text: richTextJson,
 });

@@ -1,10 +1,16 @@
 import { IOptions } from "../data/options";
 import { $$ } from "../utils";
 
-import { IRichTextData, IRichTextRange, IRichTextSettingData } from "./data";
+import {
+  DEFAULT_RICH_TEXT,
+  IRichTextData,
+  IRichTextRange,
+  IRichTextSettingData,
+} from "./data";
 import { createArrayRange, mergeArray } from "../utils/util";
 
 import "../assets/css/main.module.less";
+import { IPlugin, IRange, Plugin } from "..";
 
 /**
  * rich text
@@ -12,28 +18,58 @@ import "../assets/css/main.module.less";
  * reference: https://www.thatsoftwaredude.com/content/8912/create-a-basic-text-editor-in-javascript
  */
 export class RichText {
-  private _element: HTMLElement;
+  private _container: HTMLElement;
+  private _text: IRichTextData;
+  private _plugins: { [key: string]: Plugin };
   constructor(options: IOptions) {
-    const { element } = options;
-    if (typeof element === "string") {
-      this._element = $$(element);
+    const { container, text, plugin } = options;
+    if (typeof container === "string") {
+      this._container = $$(container);
     } else {
-      this._element = element;
+      this._container = container;
     }
 
-    this.init(options.text);
+    this.init(text);
+    this.installPulgin(plugin || []);
   }
   /**
    * init rich text dom
    */
   init(text?: IRichTextData) {
+    // merge default setting
+    this._text = Object.assign(DEFAULT_RICH_TEXT, text);
+
     let transformJson = textToJson(text);
 
     const dom = `<div class="editor" contenteditable="true">${transformJson}</div>`;
-    this._element.insertAdjacentHTML("beforeend", dom);
+    this._container.insertAdjacentHTML("beforeend", dom);
   }
-  get element(): HTMLElement {
-    return this._element;
+  get container(): HTMLElement {
+    return this._container;
+  }
+
+  /**
+   * install all plugins
+   * @param plugins
+   */
+  installPulgin(plugins: Plugin[]) {
+    plugins.forEach((plugin) => {
+      plugin.init(this);
+      this._plugins[plugin.name] = plugin;
+    });
+  }
+
+  setStyle(type: string, value: string | number, range: IRange) {
+    const rule = {
+      type: type,
+      value: value,
+      selection: [[range.start, range.end]],
+    };
+
+    // merge setting
+    this._text.setting = mergeTextSetting(rule, this._text.setting);
+
+    return textToJson(this._text);
   }
 }
 
@@ -208,76 +244,4 @@ export function mergeTextSetting(rule, setting): IRichTextSettingData[] {
   }
 
   return setting;
-}
-
-/**
- * Get the currently selected range within the specified element
- *
- * reference: https://stackoverflow.com/questions/13949059/persisting-the-changes-of-range-objects-after-selection-in-html/13950376#13950376
- * @param containerEl
- * @returns
- */
-export function saveRange(containerEl) {
-  var range = window.getSelection().getRangeAt(0);
-  var preSelectionRange = range.cloneRange();
-  preSelectionRange.selectNodeContents(containerEl);
-  preSelectionRange.setEnd(range.startContainer, range.startOffset);
-  var start = preSelectionRange.toString().length;
-
-  return {
-    start: start,
-    end: start + range.toString().length - 1,
-  };
-}
-
-/**
- * According to the range and specified elements, restore the highlight of the selected area
- *
- * @param containerEl
- * @param savedSel
- */
-export function restoreRange(
-  containerEl: HTMLElement,
-  savedSel: IRichTextRange | object
-) {
-  var charIndex = 0,
-    range = document.createRange();
-  range.setStart(containerEl, 0);
-  range.collapse(true);
-  var nodeStack = [containerEl],
-    node,
-    foundStart = false,
-    stop = false;
-
-  while (!stop && (node = nodeStack.pop())) {
-    if (node.nodeType == 3) {
-      var nextCharIndex = charIndex + node.length;
-      if (
-        !foundStart &&
-        savedSel.start >= charIndex &&
-        savedSel.start <= nextCharIndex
-      ) {
-        range.setStart(node, savedSel.start - charIndex);
-        foundStart = true;
-      }
-      if (
-        foundStart &&
-        savedSel.end + 1 >= charIndex &&
-        savedSel.end + 1 <= nextCharIndex
-      ) {
-        range.setEnd(node, savedSel.end + 1 - charIndex);
-        stop = true;
-      }
-      charIndex = nextCharIndex;
-    } else {
-      var i = node.childNodes.length;
-      while (i--) {
-        nodeStack.push(node.childNodes[i]);
-      }
-    }
-  }
-
-  var sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
 }

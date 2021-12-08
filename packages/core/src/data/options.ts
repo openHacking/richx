@@ -1,14 +1,15 @@
+import { Plugin } from "..";
 import { IRichTextData } from "../components/data";
 
 export interface IOptions {
   /**
    * string selector or DOM
    */
-  element: string | HTMLElement;
+  container: string | HTMLElement;
   /**
    * plugin list
    */
-  plugins?: any[];
+  plugin?: Plugin[];
 
   text?: IRichTextData;
 }

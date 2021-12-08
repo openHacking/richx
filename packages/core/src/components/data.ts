@@ -65,3 +65,8 @@ export interface IRichTextRange {
   start: number;
   end: number;
 }
+
+export const DEFAULT_RICH_TEXT = {
+  text: "Simple Rich Text Demo",
+  setting: [],
+};

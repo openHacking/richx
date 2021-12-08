@@ -1,52 +1,49 @@
 import { IOptions } from "../data/options";
-import { $$, IProps, IRichTextData, mergeTextSetting, saveRange, textToJson } from "@richx/core";
+import {
+  $$,
+  IProps,
+  IRichTextData,
+  mergeTextSetting,
+  RichText,
+  saveRange,
+  textToJson,
+} from "@richx/core";
 import styles from "./tool-bar.module.less";
 import { Component } from "@richx/core";
 import { fontSizeSettingList } from "../data/const";
+import { IRange } from "@richx/core";
 
-
-// function component template
-
-// export const ToolBarComponent = () => {
-//   return (
-//     <div className={styles.sampleToolbar}>
-//       <span style={{ fontWeight: 700 }}>B</span>
-//       <span style={{ fontStyle: 'italic' }}>I</span>
-//       <span className="" aria-hidden="true"></span>
-//       <span className="" aria-hidden="true"></span>
-//       <span className="" aria-hidden="true"></span>
-//     </div>
-//   )
-// }
-
+interface IToolBarProps {
+  richText: RichText;
+}
 /**
  * Tool bar component
  */
 export class ToolBarComponent extends Component {
-  private _range: { start: number, end: number }
+  private _range: IRange;
+  _richText: RichText;
+  constructor(props: IToolBarProps) {
+    super();
 
-  constructor(private _text: IRichTextData) {
-    super()
+    const { richText } = props;
 
+    this._richText = richText;
   }
 
   setFontWeight() {
-
-    this.setState('font-weight', 700);
+    this.setState("font-weight", 700);
   }
   setFontStyle() {
-
-    this.setState('font-style', 'italic');
+    this.setState("font-style", "italic");
   }
-  selectFontSize(e: Event) {
-    this.setState('font-size', +e.target.value);
-
+  setFontSize(e: Event) {
+    this.setState("font-size", +e.target.value);
   }
 
   setState(type: string, value: string | number) {
-
-    const editor = $$('.editor')
+    const editor = $$(".editor");
     this._range = saveRange(editor);
+
     const rule = {
       type: type,
       value: value,
@@ -56,12 +53,10 @@ export class ToolBarComponent extends Component {
     // merge setting
     this._text.setting = mergeTextSetting(rule, this._text.setting);
 
+    let transformHTML = textToJson(this._text);
 
-    let transformJson = textToJson(this._text)
-
-    editor.innerHTML = transformJson
-
-  };
+    editor.innerHTML = transformHTML;
+  }
 
   /**
    * Render the component's HTML
@@ -71,20 +66,26 @@ export class ToolBarComponent extends Component {
   render() {
     return (
       <div className={styles.sampleToolbar}>
-        <span style={{ fontWeight: 700 }} onClick={this.setFontWeight.bind(this)}>B</span>
-        <span style={{ fontStyle: 'italic' }} onClick={this.setFontStyle.bind(this)}>I</span>
+        <span
+          style={{ fontWeight: 700 }}
+          onClick={this.setFontWeight.bind(this)}
+        >
+          B
+        </span>
+        <span
+          style={{ fontStyle: "italic" }}
+          onClick={this.setFontStyle.bind(this)}
+        >
+          I
+        </span>
         <span>
-          <select name="" id="" onChange={this.selectFontSize.bind(this)}>{
-            fontSizeSettingList.map((size) => {
-              return <option value={size}>{size} px</option>
-            })
-          }
+          <select name="" id="" onChange={this.setFontSize.bind(this)}>
+            {fontSizeSettingList.map((size) => {
+              return <option value={size}>{size} px</option>;
+            })}
           </select>
         </span>
-
-      </div >
-    )
+      </div>
+    );
   }
 }
-
-
