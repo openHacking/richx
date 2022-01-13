@@ -83,6 +83,6 @@ export const richTextJson = {
 
 new RichText({
   container: "#rich",
-  plugins: [new ToolBar({ container: "#toolbar" })],
   text: richTextJson,
+  plugins: [new ToolBar({ container: "#toolbar" })],
 });

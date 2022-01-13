@@ -70,3 +70,7 @@ export const DEFAULT_RICH_TEXT = {
   text: "Simple Rich Text Demo",
   setting: [],
 };
+
+export type ObjectKV<V = object> = {
+  [key: string]: V;
+};

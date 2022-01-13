@@ -13,7 +13,7 @@ export class ToolBar extends Plugin {
     const { container } = props;
     this._container =
       typeof container === "string"
-        ? document.querySelector(container)
+        ? (document.querySelector(container) as HTMLElement)
         : container;
 
     this._container.appendChild(

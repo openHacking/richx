@@ -6,8 +6,9 @@ import {
   IRichTextData,
   IRichTextRange,
   IRichTextSettingData,
+  ObjectKV,
 } from "./data";
-import { createArrayRange, mergeArray } from "../utils/util";
+import { createArrayRange, mergeArray, saveRange } from "../utils/util";
 
 import "../assets/css/main.module.less";
 import { IPlugin, IRange, Plugin } from "..";
@@ -20,6 +21,7 @@ import { IPlugin, IRange, Plugin } from "..";
 export class RichText {
   private _container: HTMLElement;
   private _text: IRichTextData;
+  private _range: IRange;
   private _plugins: { [key: string]: Plugin };
   constructor(options: IOptions) {
     const { container, text, plugin } = options;
@@ -29,6 +31,7 @@ export class RichText {
       this._container = container;
     }
 
+    this._range = saveRange(this._container);
     this.init(text);
     this.installPulgin(plugin || []);
   }
@@ -39,7 +42,7 @@ export class RichText {
     // merge default setting
     this._text = Object.assign(DEFAULT_RICH_TEXT, text);
 
-    let transformJson = textToJson(text);
+    let transformJson = textToJson(this._text);
 
     const dom = `<div class="editor" contenteditable="true">${transformJson}</div>`;
     this._container.insertAdjacentHTML("beforeend", dom);
@@ -59,18 +62,24 @@ export class RichText {
     });
   }
 
-  setStyle(type: string, value: string | number, range: IRange) {
+  setStyle(type: string, value: string | number) {
+    this._range = saveRange(this._container);
+
     const rule = {
       type: type,
       value: value,
-      selection: [[range.start, range.end]],
+      selection: [[this._range.start, this._range.end]],
     };
 
     // merge setting
     this._text.setting = mergeTextSetting(rule, this._text.setting);
 
-    return textToJson(this._text);
+    let transformHTML = textToJson(this._text);
+
+    this._container.innerHTML = transformHTML;
   }
+
+  setState(type: string, value: string | number) {}
 }
 
 export const textToJson = (text: IRichTextData): string => {
@@ -88,15 +97,15 @@ export const textToJson = (text: IRichTextData): string => {
  * @param json
  * @returns
  */
-export const transfromRichTextJson = (json): object => {
-  const jsonMap = {};
+export const transfromRichTextJson = (json: IRichTextData): object => {
+  const jsonMap: ObjectKV<object> = {};
 
   // Decompose each item to a single character
   json.setting.forEach((item) => {
     item.selection.forEach((select) => {
       if (select instanceof Array) {
-        for (let index = select[0]; index <= select[1]; index++) {
-          index = "" + index;
+        for (let i = select[0]; i <= select[1]; i++) {
+          let index = "" + i;
           const style = {
             [item.type]:
               item.type === "font-size" ? item.value + "px" : item.value,
@@ -111,9 +120,13 @@ export const transfromRichTextJson = (json): object => {
     });
   });
 
+  interface IPreSetting {
+    selection: string[];
+    style: object;
+  }
   // Combine adjacent and identical settings
-  let preSetting: any = null,
-    jsonMapMerge = {};
+  let preSetting: IPreSetting = { selection: [], style: {} },
+    jsonMapMerge: ObjectKV<object> = {};
 
   Object.keys(jsonMap).reduce((pre, cur, i) => {
     // init
@@ -195,7 +208,10 @@ export const transfromRichTextRender = (json): string => {
  * @param rule
  * @param setting
  */
-export function mergeTextSetting(rule, setting): IRichTextSettingData[] {
+export function mergeTextSetting(
+  rule: object,
+  setting
+): IRichTextSettingData[] {
   const find = setting.find(
     (item) => item.type === rule.type && item.value === rule.value
   );
