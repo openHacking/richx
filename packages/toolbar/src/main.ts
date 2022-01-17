@@ -1,6 +1,6 @@
 import "./style.less";
 
-import { IRichTextSettingData, RichText } from "@richx/core";
+import { IRichTextData, IRichTextSettingData, RichText } from "@richx/core";
 import { ToolBar } from ".";
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -76,13 +76,13 @@ export const richTextSettingJson: IRichTextSettingData[] = [
   // },
 ];
 
-export const richTextJson = {
-  text: "Simple Rich Text Demo,",
+export const richTextJson: IRichTextData = {
+  text: "Simple Rich Text Demo",
   setting: richTextSettingJson,
 };
 
 new RichText({
   container: "#rich",
-  text: richTextJson,
+  config: richTextJson,
   plugins: [new ToolBar({ container: "#toolbar" })],
 });

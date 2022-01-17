@@ -1,12 +1,11 @@
 import { IRichTextRange } from "../components/data";
 import { IRange } from "../data/range";
-
 /**
  * Simple object check.
  * @param item
  * @returns {boolean}
  */
-export function isObject(item) {
+export function isObject(item: any) {
   return item && typeof item === "object" && !Array.isArray(item);
 }
 
@@ -24,7 +23,7 @@ export function isElement(element: any) {
  * @param target
  * @param ...sources
  */
-export function mergeDeep(target, ...sources) {
+export function mergeDeep(target: any, ...sources: any): any {
   if (!sources.length) return target;
   const source = sources.shift();
 
@@ -219,7 +218,7 @@ export function mergeArray(array) {
  * @param containerEl
  * @returns
  */
-export function saveRange(containerEl): IRange {
+export function saveRange(containerEl: HTMLElement): IRange {
   var range = window.getSelection().getRangeAt(0);
   var preSelectionRange = range.cloneRange();
   preSelectionRange.selectNodeContents(containerEl);

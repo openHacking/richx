@@ -9,7 +9,10 @@ export interface IOptions {
   /**
    * plugin list
    */
-  plugin?: Plugin[];
+  plugins?: Plugin[];
 
-  text?: IRichTextData;
+  /**
+   * config
+   */
+  config?: IRichTextData;
 }

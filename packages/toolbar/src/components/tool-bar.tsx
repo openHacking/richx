@@ -6,30 +6,36 @@ import {
   mergeTextSetting,
   RichText,
   saveRange,
-  textToJson,
+  configToJson,
 } from "@richx/core";
 import styles from "./tool-bar.module.less";
 import { Component } from "@richx/core";
 import { fontSizeSettingList } from "../data/const";
 import { IRange } from "@richx/core";
 
-interface IToolBarProps {}
+interface IToolBarComponentProps {
+  core: RichText;
+}
 /**
  * Tool bar component
  */
 export class ToolBarComponent extends Component {
-  constructor(props: IToolBarProps) {
+  core: RichText;
+  constructor(props: IToolBarComponentProps) {
     super();
+    const { core } = props;
+    this.core = core;
+    console.log("core", this.core);
   }
 
   setFontWeight() {
-    this.setState("font-weight", 700);
+    this.core.setStyle("font-weight", 700);
   }
   setFontStyle() {
-    this.setState("font-style", "italic");
+    this.core.setStyle("font-style", "italic");
   }
   setFontSize(e: Event) {
-    this.setState("font-size", +e.target.value);
+    this.core.setStyle("font-size", +e.target.value);
   }
 
   /**

@@ -8,8 +8,7 @@ export class ToolBar extends Plugin {
   _container: HTMLElement;
 
   constructor(props: IProps) {
-    super();
-    this.name = "toolbar";
+    super("toolbar");
     const { container } = props;
     this._container =
       typeof container === "string"
@@ -17,7 +16,7 @@ export class ToolBar extends Plugin {
         : container;
 
     this._container.appendChild(
-      new ToolBarComponent({ richText: this._richText }).getElement()
+      new ToolBarComponent({ core: this.core }).getElement()
     );
   }
 }

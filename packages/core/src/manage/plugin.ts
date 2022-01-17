@@ -1,14 +1,14 @@
 import { RichText } from "../components/rich-text";
 
-export interface IPlugin {
-  name: string;
-  _richText: RichText;
-}
 export abstract class Plugin {
   name: string;
-  constructor() {}
-
-  init(richText: RichText) {
-    this._richText = richText;
+  core!: RichText;
+  constructor(name: string) {
+    this.name = name;
   }
+
+  init(core: RichText) {
+    this.core = core;
+  }
+  abstract start(): void;
 }

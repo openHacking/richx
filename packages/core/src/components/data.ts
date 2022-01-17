@@ -1,3 +1,4 @@
+import { Plugin } from "..";
 export enum TextStyle {
   FONT_FAMILY = "fontFamily",
   FONT_SIZE = "fontSize",
@@ -67,10 +68,13 @@ export interface IRichTextRange {
 }
 
 export const DEFAULT_RICH_TEXT = {
-  text: "Simple Rich Text Demo",
+  config: "Simple Rich Text Demo",
   setting: [],
 };
 
 export type ObjectKV<V = object> = {
   [key: string]: V;
 };
+export interface IPlugins {
+  [key: string]: Plugin;
+}
