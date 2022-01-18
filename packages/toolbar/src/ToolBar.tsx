@@ -14,7 +14,9 @@ export class ToolBar extends Plugin {
       typeof container === "string"
         ? (document.querySelector(container) as HTMLElement)
         : container;
+  }
 
+  start(): void {
     this._container.appendChild(
       new ToolBarComponent({ core: this.core }).getElement()
     );

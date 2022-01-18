@@ -9,6 +9,7 @@ export abstract class Plugin {
 
   init(core: RichText) {
     this.core = core;
+    this.start();
   }
   abstract start(): void;
 }

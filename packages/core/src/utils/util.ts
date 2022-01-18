@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes } from "react";
 import { IRichTextRange } from "../components/data";
 import { IRange } from "../data/range";
 /**
@@ -237,7 +238,7 @@ export function saveRange(containerEl: HTMLElement): IRange {
  * @param containerEl
  * @param savedSel
  */
-export function restoreRange(containerEl: HTMLElement, savedSel: object) {
+export function restoreRange(containerEl: HTMLElement, savedSel: IRange) {
   var charIndex = 0,
     range = document.createRange();
   range.setStart(containerEl, 0);

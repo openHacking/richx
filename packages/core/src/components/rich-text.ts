@@ -8,15 +8,27 @@ import {
   IRichTextSettingData,
   ObjectKV,
 } from "./data";
-import { createArrayRange, mergeArray, saveRange } from "../utils/util";
+import {
+  addClass,
+  createArrayRange,
+  mergeArray,
+  restoreRange,
+  saveRange,
+} from "../utils/util";
 
 import "../assets/css/main.module.less";
 import { IRange, Plugin } from "..";
+import { Component } from ".";
 
 interface IReplaceMap {
   start: number;
   count: number;
   replace: string[];
+}
+
+interface IPreSetting {
+  selection: string[];
+  style: object;
 }
 
 /**
@@ -27,18 +39,23 @@ interface IReplaceMap {
 export class RichText {
   private _container: HTMLElement;
   private _config!: IRichTextData;
-  private _range!: IRange;
-  private _plugins!: IPlugins;
+  private _range: IRange;
+  private _plugins: IPlugins;
   constructor(options: IOptions) {
-    const { container, config, plugin } = options;
+    const { container, config, plugins } = options;
     if (typeof container === "string") {
       this._container = $$(container);
     } else {
       this._container = container;
     }
 
+    addClass("richx-editor", this._container);
+    this._container.contentEditable = "true";
+    this._range = { start: 0, end: 0 };
+    this._plugins = {};
+
     this.init(config);
-    this.installPulgin(plugin || []);
+    this.installPlugin(plugins || []);
   }
   /**
    * init rich text dom
@@ -49,8 +66,7 @@ export class RichText {
 
     let transformJson = configToJson(this._config);
 
-    const dom = `<div class="editor" contenteditable="true">${transformJson}</div>`;
-    this._container.insertAdjacentHTML("beforeend", dom);
+    this._container.innerHTML = transformJson;
   }
   get container(): HTMLElement {
     return this._container;
@@ -59,13 +75,18 @@ export class RichText {
    * install all plugins
    * @param plugins
    */
-  installPulgin(plugins: Plugin[]) {
+  installPlugin(plugins: Plugin[]) {
     plugins.forEach((plugin) => {
       plugin.init(this);
       this._plugins[plugin.name] = plugin;
     });
   }
 
+  /**
+   * set style by type
+   * @param type style stype
+   * @param value style value
+   */
   setStyle(type: string, value: string | number) {
     this._range = saveRange(this._container);
 
@@ -81,6 +102,8 @@ export class RichText {
     let transformHTML = configToJson(this._config);
 
     this._container.innerHTML = transformHTML;
+
+    restoreRange(this.container, this._range);
   }
 }
 
@@ -122,15 +145,6 @@ export const transfromRichTextJson = (json: IRichTextData): object => {
     });
   });
 
-  interface IPreSetting {
-    selection: string[];
-    style: object;
-  }
-
-  interface IJsonMap {
-    text: string;
-    setting: ObjectKV<object>;
-  }
   // Combine adjacent and identical settings
   let preSetting: IPreSetting = { selection: [], style: {} },
     jsonMapMerge: ObjectKV<object> = {};
@@ -225,14 +239,14 @@ export function mergeTextSetting(
 
   if (find) {
     /**
-         * e.g.
-         * let selection = [
-            [1, 4],
-            [9, 11],
-        ]
+       e.g.
+       let selection = [
+        [1, 4],
+        [9, 11],
+    ]
 
-            let ruleSelection = [[6,7]]
-         */
+      let ruleSelection = [[6,7]]
+    */
     let selection = find.selection;
     let ruleSelection: any = rule.selection;
 

@@ -1,17 +1,8 @@
 import { IOptions } from "../data/options";
-import {
-  $$,
-  IProps,
-  IRichTextData,
-  mergeTextSetting,
-  RichText,
-  saveRange,
-  configToJson,
-} from "@richx/core";
+import { RichText } from "@richx/core";
 import styles from "./tool-bar.module.less";
 import { Component } from "@richx/core";
 import { fontSizeSettingList } from "../data/const";
-import { IRange } from "@richx/core";
 
 interface IToolBarComponentProps {
   core: RichText;
@@ -25,7 +16,6 @@ export class ToolBarComponent extends Component {
     super();
     const { core } = props;
     this.core = core;
-    console.log("core", this.core);
   }
 
   setFontWeight() {
