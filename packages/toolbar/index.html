@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div class="outer-container">
-      <div class="inner-container">
-        <div id="toolbar"></div>
-        <div id="app"></div>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RichX Example</title>
+  <style>
+    .title-container {
+      margin: 6% auto -4% auto;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="title-container">
+    <h1>RichX</h1>
+    <h5>Simple Rich Text Editor</h5>
+  </div>
+
+  <div class="outer-container">
+    <div class="inner-container">
+      <div id="toolbar"></div>
+      <div id="app"></div>
     </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
